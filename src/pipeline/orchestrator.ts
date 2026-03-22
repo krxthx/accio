@@ -1,5 +1,5 @@
-import type { DateRange } from "../utils/dates.js"
 import type { DigestResult, DigestStats } from "../models/digest.js"
+import { digestWindow } from "../utils/dates.js"
 import { getLLM, getEmbeddings } from "../llm/index.js"
 import { collect } from "./collect.js"
 import { enhance } from "./enhance.js"
@@ -12,7 +12,6 @@ import { logger } from "../utils/log.js"
 import { SECTIONS } from "../config/constants.js"
 
 export interface RunOptions {
-  range: DateRange
   outputPath?: string
   verbose?: boolean
   dryRun?: boolean
@@ -21,6 +20,7 @@ export interface RunOptions {
 export async function run(opts: RunOptions): Promise<string> {
   const startTime = Date.now()
   const startAt = new Date()
+  const range = digestWindow()
   const llm = getLLM()
   const embeddings = getEmbeddings()
 
@@ -29,7 +29,7 @@ export async function run(opts: RunOptions): Promise<string> {
   logger.info("accio", `Started: ${startAt.toLocaleTimeString()}`)
 
   // ── Phase 1: Collect (all sources in parallel) ─────────────────────────────
-  const { articles: collected, failures } = await collect(opts.range)
+  const { articles: collected, failures } = await collect(range)
 
   const stats: Partial<DigestStats> = {
     collected: collected.length,
@@ -43,8 +43,8 @@ export async function run(opts: RunOptions): Promise<string> {
     stats.afterDedup = collected.length
     stats.inDigest = collected.length
     const digest: DigestResult = {
-      dateFrom: opts.range.from,
-      dateTo: opts.range.to,
+      dateFrom: range.from,
+      dateTo: range.to,
       generatedAt: new Date(),
       stats: stats as DigestStats,
       sections: [],
@@ -56,7 +56,7 @@ export async function run(opts: RunOptions): Promise<string> {
   stats.afterDateFilter = collected.length
 
   // ── Phase 2: Enhance — LLM quality filter ─────────────────────────────────
-  const enhanced = await enhance(collected, llm, opts.range)
+  const enhanced = await enhance(collected, llm, range)
   stats.afterEnhance = enhanced.length
 
   // ── Phase 3: Dedup — embedding-based, no LLM ──────────────────────────────
@@ -76,8 +76,8 @@ export async function run(opts: RunOptions): Promise<string> {
   // ── Phase 7: Render ────────────────────────────────────────────────────────
   const sections = buildSectionsFromArticles(categorized)
   const digest: DigestResult = {
-    dateFrom: opts.range.from,
-    dateTo: opts.range.to,
+    dateFrom: range.from,
+    dateTo: range.to,
     generatedAt: new Date(),
     stats: stats as DigestStats,
     sections,

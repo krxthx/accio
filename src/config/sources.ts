@@ -77,6 +77,12 @@ export const RSS_SOURCES: RSSSourceConfig[] = [
     tier: 1,
   },
   {
+    key: "google_ai_blog",
+    name: "Google AI Blog",
+    url: "https://blog.google/technology/ai/rss/",
+    tier: 1,
+  },
+  {
     key: "mit_news",
     name: "MIT News AI",
     url: "https://news.mit.edu/rss/topic/artificial-intelligence2",
@@ -141,6 +147,7 @@ export const GITHUB_SOURCE: GitHubSourceConfig = {
 // ── Tier 3: Playwright scrape ─────────────────────────────────────────────────
 export const PLAYWRIGHT_SOURCES: PlaywrightSourceConfig[] = [
   { key: "anthropic_news", name: "Anthropic News",   url: "https://www.anthropic.com/news",       tier: 3 },
-  { key: "meta_ai",        name: "Meta AI Blog",     url: "https://ai.meta.com/blog/",            tier: 3 },
-  { key: "google_ai",      name: "Google AI Blog",   url: "https://blog.google/technology/ai/",   tier: 3 },
+  // meta_ai disabled: no RSS feed, Playwright returns stale dates (Dec 2025 etc.) with no reliable fix
+  // { key: "meta_ai",        name: "Meta AI Blog",     url: "https://ai.meta.com/blog/",            tier: 3 },
+  // google_ai moved to RSS (blog.google/technology/ai/rss/) — has proper pubDate
 ]

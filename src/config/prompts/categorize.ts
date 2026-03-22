@@ -7,6 +7,7 @@ D = Research & Papers — academic papers, technical reports, benchmarks, evals
 E = Discussions & Opinions — community discussions, opinion pieces, debates, retrospectives
 
 When in doubt between A and D: if a company shipped it, pick A. If it's primarily a paper, pick D.
+D (Research) requires an actual paper, benchmark, or technical report — do not assign Reddit/HN community posts to D unless the article is directly a paper or eval. Use E for community discussions about research.
 
 Output ONLY valid JSON. No explanation outside the JSON structure.`
 

@@ -16,6 +16,7 @@ For kept articles, clean the title:
 - Remove site names appended at end (e.g. " | OpenAI")
 - Fix obvious truncation artifacts
 - Keep it concise but complete
+- If the title is too generic or vague (e.g. just a company name, "Blog post", "Update"), infer a more descriptive title from the snippet/URL — do not reject, just write a better title
 
 For publishedDate: extract a date (YYYY-MM-DD) if you can infer it from the title, snippet, or URL. Return null if uncertain.
 

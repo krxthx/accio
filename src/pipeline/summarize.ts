@@ -1,5 +1,5 @@
 import { Readability } from "@mozilla/readability"
-import { JSDOM } from "jsdom"
+import { parseHTML } from "linkedom"
 import type { Article } from "../models/article.js"
 import type { LLMClient } from "../llm/types.js"
 import { SUMMARIZE_SYSTEM, summarizeUserPrompt } from "../config/prompts/summarize.js"
@@ -15,8 +15,8 @@ async function fetchFullContent(url: string): Promise<string | null> {
     })
     if (!res.ok) return null
     const html = await res.text()
-    const dom = new JSDOM(html, { url })
-    const reader = new Readability(dom.window.document)
+    const { document } = parseHTML(html)
+    const reader = new Readability(document as unknown as Document)
     const parsed = reader.parse()
     return parsed?.textContent?.replace(/\s+/g, " ").trim() ?? null
   } catch {

@@ -20,6 +20,7 @@ export class OpenAICompatLLM implements LLMClient {
   private client: OpenAI
   private _model: string
   private _mergeSystemPrompt: boolean
+  private _isOllama: boolean
 
   constructor(opts: {
     baseUrl: string
@@ -32,6 +33,8 @@ export class OpenAICompatLLM implements LLMClient {
     this.supportsParallel = opts.supportsParallel ?? false
     this._model = opts.model
     this._mergeSystemPrompt = NO_SYSTEM_ROLE_MODELS.test(opts.model)
+    // Ollama typically runs on localhost:11434
+    this._isOllama = /localhost|127\.0\.0\.1/.test(opts.baseUrl)
   }
 
   async generate(prompt: string, opts: LLMGenerateOptions = {}): Promise<string> {
@@ -54,7 +57,7 @@ export class OpenAICompatLLM implements LLMClient {
       temperature: opts.temperature ?? LLM_TEMPERATURE,
       max_tokens: opts.maxTokens ?? LLM_MAX_TOKENS,
       // Ollama-specific: expand context window beyond its 2048 default
-      options: { num_ctx: 8192 },
+      ...(this._isOllama ? { options: { num_ctx: 8192 } } : {}),
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res = await (this.client.chat.completions.create as any)(body)

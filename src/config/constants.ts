@@ -10,10 +10,11 @@ export const RANK_MAX_ARTICLES = 20         // single rank call cap (split if ov
 export const CATEGORIZE_MAX_ARTICLES = 20   // single categorize call cap
 
 // ── Dedup ─────────────────────────────────────────────────────────────────────
-export const DEDUP_SIMILARITY_THRESHOLD = 0.92   // cosine similarity for duplicate
+export const DEDUP_SIMILARITY_THRESHOLD = 0.85   // cosine similarity for duplicate (was 0.92, too strict)
 export const DEDUP_EMBED_BATCH_SIZE = 32          // articles per embedding request
 
 // ── Date filtering ────────────────────────────────────────────────────────────
+export const DIGEST_WINDOW_DAYS = 7              // rolling window for article collection
 export const DATE_FILTER_TOLERANCE_HOURS = 6     // slack for timezone drift
 
 // ── HTTP ──────────────────────────────────────────────────────────────────────
@@ -26,6 +27,7 @@ export const PLAYWRIGHT_NORMAL_WAIT_MS = 3_000
 export const HN_FETCH_LIMIT = 20
 export const REDDIT_FETCH_LIMIT = 8         // per subreddit
 export const REDDIT_MIN_SCORE = 10          // ignore low-signal posts
+export const GITHUB_MIN_STARS = 5           // skip brand-new repos with no traction
 export const LANGSEARCH_RESULT_COUNT = 8
 export const RSS_FETCH_TIMEOUT_MS = 10_000
 

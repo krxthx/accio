@@ -4,6 +4,9 @@
 export function extractJSON<T = unknown>(raw: string): T {
   let cleaned = raw.trim()
 
+  // Strip <think>...</think> blocks (reasoning models like DeepSeek, QwQ)
+  cleaned = cleaned.replace(/<think>[\s\S]*?<\/think>/gi, "").trim()
+
   // Strip markdown code fences
   const fenceMatch = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/)
   if (fenceMatch) cleaned = fenceMatch[1].trim()

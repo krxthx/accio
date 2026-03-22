@@ -6,7 +6,7 @@ import { makeArticleId } from "../models/article.js"
 import { inRange } from "../utils/dates.js"
 import { isValidArticleUrl, normalizeUrl } from "../utils/urls.js"
 import { truncate } from "../utils/parsing.js"
-import { HTTP_TIMEOUT_MS } from "../config/constants.js"
+import { HTTP_TIMEOUT_MS, GITHUB_MIN_STARS } from "../config/constants.js"
 import { logger } from "../utils/log.js"
 
 interface GitHubRepo {
@@ -67,6 +67,8 @@ export class GitHubSource implements Source {
           const articleUrl = normalizeUrl(repo.html_url)
           if (!isValidArticleUrl(articleUrl) || seen.has(articleUrl)) continue
           seen.add(articleUrl)
+
+          if (repo.stargazers_count < GITHUB_MIN_STARS) continue
 
           const timestamp = new Date(repo.created_at)
           if (!inRange(timestamp, range)) continue

@@ -8,6 +8,7 @@ Score each article 1–5:
 1 = Skip: barely AI-related, pure marketing, clickbait
 
 Be strict. Most articles should score 2–4. Reserve 5 for genuine milestones.
+Reddit posts (r/singularity, r/artificial) are community aggregators — cap at 3 unless the linked content itself is a major primary source. r/MachineLearning and r/LocalLLaMA can score higher for original technical discussion.
 
 Output ONLY valid JSON. No explanation outside the JSON structure.`
 
