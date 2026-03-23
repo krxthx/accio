@@ -94,6 +94,32 @@ export const RSS_SOURCES: RSSSourceConfig[] = [
     url: "https://openai.com/news/rss.xml",
     tier: 1,
   },
+  // ── Business / Industry ───────────────────────────────────────────────────
+  {
+    key: "venturebeat_ai",
+    name: "VentureBeat AI",
+    url: "https://venturebeat.com/ai/feed/",
+    tier: 1,
+  },
+  {
+    key: "techcrunch_ai",
+    name: "TechCrunch AI",
+    url: "https://techcrunch.com/category/artificial-intelligence/feed/",
+    tier: 1,
+  },
+  // ── Research (broader arXiv coverage) ────────────────────────────────────
+  {
+    key: "arxiv_cl",
+    name: "ArXiv CS.CL",
+    url: "https://rss.arxiv.org/rss/cs.CL",
+    tier: 1,
+  },
+  {
+    key: "arxiv_cv",
+    name: "ArXiv CS.CV",
+    url: "https://rss.arxiv.org/rss/cs.CV",
+    tier: 1,
+  },
 ]
 
 // ── Tier 2: Structured APIs ───────────────────────────────────────────────────

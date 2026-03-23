@@ -1,17 +1,19 @@
 import type { Article } from "../models/article.js"
 import type { FetchFailure } from "../models/digest.js"
 import type { Source } from "../sources/base.js"
+import type { LLMClient } from "../llm/types.js"
 import type { DateRange } from "../utils/dates.js"
+import { isToolCallingClient } from "../llm/types.js"
 import { RSSSource } from "../sources/rss.js"
 import { HackerNewsSource } from "../sources/hackernews.js"
 import { RedditSource } from "../sources/reddit.js"
-// import { LangSearchSource } from "../sources/langsearch.js"  // disabled for dev runs
 import { GitHubSource } from "../sources/github.js"
 import { PlaywrightSource } from "../sources/playwright.js"
 import {
   RSS_SOURCES, HN_SOURCE, REDDIT_SOURCE, GITHUB_SOURCE, PLAYWRIGHT_SOURCES,
 } from "../config/sources.js"
 import { inRange } from "../utils/dates.js"
+import { agentCollect } from "./collect-agent.js"
 import { logger } from "../utils/log.js"
 
 export interface CollectResult {
@@ -19,36 +21,49 @@ export interface CollectResult {
   failures: FetchFailure[]
 }
 
-function buildSources(): Source[] {
-  const sources: Source[] = [
+/** Sources that always run regardless of agent mode (feeds/scrapers, not query-based). */
+function buildStaticSources(): Source[] {
+  return [
     ...RSS_SOURCES.map(cfg => new RSSSource(cfg)),
-    new HackerNewsSource(HN_SOURCE),
     new RedditSource(REDDIT_SOURCE),
-    // new LangSearchSource(LANGSEARCH_SOURCE),  // disabled for dev runs
-    new GitHubSource(GITHUB_SOURCE),
     ...PLAYWRIGHT_SOURCES.map(cfg => new PlaywrightSource(cfg)),
   ]
-  return sources
 }
 
-export async function collect(range: DateRange): Promise<CollectResult> {
-  const sources = buildSources()
-  logger.step("collect", `Fetching ${sources.length} sources in parallel…`)
+/** Fallback query-based sources used when no tool-calling LLM is available. */
+function buildQuerySources(): Source[] {
+  return [
+    new HackerNewsSource(HN_SOURCE),
+    new GitHubSource(GITHUB_SOURCE),
+  ]
+}
 
-  // All sources fire simultaneously — the big parallelism win
-  const results = await Promise.allSettled(
-    sources.map(source =>
-      source.fetch(range).then(result => ({ source, result }))
-    )
-  )
+export async function collect(range: DateRange, llm: LLMClient): Promise<CollectResult> {
+  const useAgent = isToolCallingClient(llm)
+
+  const staticSources = buildStaticSources()
+  const querySources  = useAgent ? [] : buildQuerySources()
+  const allSources    = [...staticSources, ...querySources]
+
+  logger.step("collect", `Fetching ${allSources.length} sources in parallel${useAgent ? " + agent queries" : ""}…`)
+
+  // Static sources + agent fire simultaneously
+  const [sourceResults, agentArticles] = await Promise.all([
+    Promise.allSettled(
+      allSources.map(source =>
+        source.fetch(range).then(result => ({ source, result }))
+      )
+    ),
+    useAgent ? agentCollect(llm, range) : Promise.resolve([] as Article[]),
+  ])
 
   const seen = new Set<string>()
   const articles: Article[] = []
   const failures: FetchFailure[] = []
 
-  for (const settled of results) {
+  // Process static/query source results
+  for (const settled of sourceResults) {
     if (settled.status === "rejected") {
-      // Shouldn't happen since fetch() catches internally, but just in case
       logger.warn("collect", "Source threw unexpectedly", String(settled.reason))
       continue
     }
@@ -64,16 +79,23 @@ export async function collect(range: DateRange): Promise<CollectResult> {
     for (const article of result.articles) {
       if (seen.has(article.url)) continue
       seen.add(article.url)
-
-      // Final date guard — each source already filters but this is the authoritative check
       if (!inRange(article.timestamp, range)) continue
-
       articles.push(article)
       kept++
     }
 
     logger.info("collect", source.name, `${kept} articles`)
   }
+
+  // Merge agent articles (already date-filtered)
+  let agentKept = 0
+  for (const article of agentArticles) {
+    if (seen.has(article.url)) continue
+    seen.add(article.url)
+    articles.push(article)
+    agentKept++
+  }
+  if (agentKept > 0) logger.info("collect", "Agent (HN + GitHub)", `${agentKept} articles`)
 
   logger.stat("Total collected", articles.length)
   logger.stat("Source failures", failures.length)

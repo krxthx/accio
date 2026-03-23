@@ -28,3 +28,9 @@ export function formatDate(d: Date): string {
   return d.toISOString().split("T")[0]
 }
 
+export function parseDate(raw: string | undefined | null): Date | null {
+  if (!raw) return null
+  const d = new Date(raw)
+  return isNaN(d.getTime()) ? null : d
+}
+

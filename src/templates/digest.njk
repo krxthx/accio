@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accio · AI Digest — {{ dateRange }}</title>
+  <title>Accio · AI Digest - {{ dateRange }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -300,6 +300,30 @@
       justify-content: space-between;
     }
 
+    /* ── Sidebar legend ───────────────────────────────────── */
+    .legend { display: flex; flex-direction: column; gap: 0.18rem; }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.2rem 0.45rem;
+      font-size: 0.7rem;
+      color: var(--text-faint);
+    }
+    .legend-pip {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      opacity: 0.75;
+    }
+    .legend-pip.s5 { background: var(--s5); }
+    .legend-pip.s4 { background: var(--s4); }
+    .legend-pip.s3 { background: var(--s3); }
+    .legend-pip.s2 { background: var(--s2); }
+    .legend-pip.s1 { background: var(--s1); }
+    .legend-text { line-height: 1; }
+
     /* ── Scrollbar ────────────────────────────────────────── */
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -342,6 +366,15 @@
         <span class="nav-count">{{ section.articles | length }}</span>
       </a>
       {% endfor %}
+
+      <div class="sidebar-label" style="margin-top: 1.75rem;">Relevance</div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-pip s5"></span><span class="legend-text">Must-read</span></div>
+        <div class="legend-item"><span class="legend-pip s4"></span><span class="legend-text">High signal</span></div>
+        <div class="legend-item"><span class="legend-pip s3"></span><span class="legend-text">Notable</span></div>
+        <div class="legend-item"><span class="legend-pip s2"></span><span class="legend-text">Context</span></div>
+        <div class="legend-item"><span class="legend-pip s1"></span><span class="legend-text">Low signal</span></div>
+      </div>
     </aside>
 
     <main class="main">

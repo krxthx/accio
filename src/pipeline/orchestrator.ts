@@ -29,7 +29,7 @@ export async function run(opts: RunOptions): Promise<string> {
   logger.info("accio", `Started: ${startAt.toLocaleTimeString()}`)
 
   // ── Phase 1: Collect (all sources in parallel) ─────────────────────────────
-  const { articles: collected, failures } = await collect(range)
+  const { articles: collected, failures } = await collect(range, llm)
 
   const stats: Partial<DigestStats> = {
     collected: collected.length,

@@ -20,7 +20,9 @@ For kept articles, clean the title:
 
 For publishedDate: extract a date (YYYY-MM-DD) if you can infer it from the title, snippet, or URL. Return null if uncertain.
 
-Output ONLY valid JSON. No explanation, no markdown, no prose.`
+You have a \`fetch_article\` tool. Use it when a title or snippet is ambiguous and you need more context to make a confident keep/reject decision. Do NOT fetch every article — only those where you are genuinely uncertain.
+
+When finished evaluating all articles, output ONLY a valid JSON array. No explanation, no markdown, no prose.`
 
 export function enhanceUserPrompt(
   articles: Array<{ id: string; title: string; url: string; snippet: string | null }>,

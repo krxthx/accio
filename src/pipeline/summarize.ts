@@ -36,7 +36,8 @@ async function summarizeBatch(batch: Article[], llm: LLMClient): Promise<Summary
       let content = a.fullContent ?? a.rawSnippet
       if (!content || content.length < 200) {
         const full = await fetchFullContent(a.url)
-        content = full ? truncate(full, 2000) : content
+        // Only use fetched content if it looks like real article text (not nav/redirect)
+        if (full && full.length >= 150) content = truncate(full, 2000)
       }
       return {
         id: a.id,

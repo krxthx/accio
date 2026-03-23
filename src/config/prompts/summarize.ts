@@ -5,6 +5,8 @@ Do NOT use vague language like "this article discusses" or "the author explores"
 Do NOT copy more than a few words verbatim from the source.
 Focus on what happened, why it matters, and what's new.
 
+If an article's content is clearly navigation text, a paywall message, a redirect page, or an error page — do NOT hallucinate. Instead write a factual 1–2 sentence description based only on what you can infer from the title and URL. Never fabricate specifics (numbers, model names, claims) that aren't in the provided data.
+
 Output ONLY valid JSON. No explanation outside the JSON structure.`
 
 export function summarizeUserPrompt(
