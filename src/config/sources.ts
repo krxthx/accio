@@ -3,6 +3,7 @@ export interface RSSSourceConfig {
   name: string
   url: string          // RSS feed URL
   tier: 1
+  fetchLimit?: number  // max articles to keep (applied after date filter)
 }
 
 export interface PlaywrightSourceConfig {
@@ -57,12 +58,14 @@ export const RSS_SOURCES: RSSSourceConfig[] = [
     name: "ArXiv CS.AI",
     url: "https://rss.arxiv.org/rss/cs.AI",
     tier: 1,
+    fetchLimit: 5,
   },
   {
     key: "arxiv_lg",
     name: "ArXiv CS.LG",
     url: "https://rss.arxiv.org/rss/cs.LG",
     tier: 1,
+    fetchLimit: 5,
   },
   {
     key: "hf_blog",
@@ -113,12 +116,14 @@ export const RSS_SOURCES: RSSSourceConfig[] = [
     name: "ArXiv CS.CL",
     url: "https://rss.arxiv.org/rss/cs.CL",
     tier: 1,
+    fetchLimit: 5,
   },
   {
     key: "arxiv_cv",
     name: "ArXiv CS.CV",
     url: "https://rss.arxiv.org/rss/cs.CV",
     tier: 1,
+    fetchLimit: 5,
   },
 ]
 

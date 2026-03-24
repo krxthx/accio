@@ -27,7 +27,7 @@ async function rankBatch(batch: Article[], llm: LLMClient): Promise<RankDecision
   }
 }
 
-export async function rank(articles: Article[], llm: LLMClient, verbose = false): Promise<Article[]> {
+export async function rank(articles: Article[], llm: LLMClient): Promise<Article[]> {
   logger.step("rank", `Scoring ${articles.length} articles…`)
 
   // Split into chunks if over cap (single call is faster; cap avoids context overflow)
@@ -51,7 +51,7 @@ export async function rank(articles: Article[], llm: LLMClient, verbose = false)
     const d = scoreMap.get(article.id)
     const score = d?.score ?? 3
 
-    if (!verbose && score < MIN_IMPORTANCE_SCORE) {
+    if (score < MIN_IMPORTANCE_SCORE) {
       logger.debug("rank", `SKIP score=${score} "${(article.cleanedTitle ?? article.title).slice(0, 50)}"`)
       continue
     }

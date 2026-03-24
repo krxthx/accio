@@ -8,6 +8,9 @@ REJECT if the article is:
 - Off-topic (not related to AI, ML, or the AI industry)
 - A job posting, event listing, or press release with no substance
 - A duplicate title in this batch
+- A general opinion piece, rant, or editorial without technical substance
+- About AI industry layoffs, hiring, salaries, or employment trends
+- About politics, regulation debates, or AI ethics commentary without technical content
 
 KEEP everything else that a practicing AI engineer would find useful.
 

@@ -21,18 +21,12 @@ export interface CollectResult {
   failures: FetchFailure[]
 }
 
-/** Sources that always run regardless of agent mode (feeds/scrapers, not query-based). */
-function buildStaticSources(): Source[] {
+/** Fallback sources used when no tool-calling LLM is available. */
+function buildFallbackSources(): Source[] {
   return [
     ...RSS_SOURCES.map(cfg => new RSSSource(cfg)),
     new RedditSource(REDDIT_SOURCE),
     ...PLAYWRIGHT_SOURCES.map(cfg => new PlaywrightSource(cfg)),
-  ]
-}
-
-/** Fallback query-based sources used when no tool-calling LLM is available. */
-function buildQuerySources(): Source[] {
-  return [
     new HackerNewsSource(HN_SOURCE),
     new GitHubSource(GITHUB_SOURCE),
   ]
@@ -41,27 +35,25 @@ function buildQuerySources(): Source[] {
 export async function collect(range: DateRange, llm: LLMClient): Promise<CollectResult> {
   const useAgent = isToolCallingClient(llm)
 
-  const staticSources = buildStaticSources()
-  const querySources  = useAgent ? [] : buildQuerySources()
-  const allSources    = [...staticSources, ...querySources]
+  if (useAgent) {
+    logger.step("collect", "Agent collecting from all sources…")
+    const agentArticles = await agentCollect(llm, range)
+    logger.stat("Total collected", agentArticles.length)
+    return { articles: agentArticles, failures: [] }
+  }
 
-  logger.step("collect", `Fetching ${allSources.length} sources in parallel${useAgent ? " + agent queries" : ""}…`)
+  // Fallback: fetch all sources directly when no tool-calling LLM
+  const sources = buildFallbackSources()
+  logger.step("collect", `Fetching ${sources.length} sources in parallel (no agent)…`)
 
-  // Static sources + agent fire simultaneously
-  const [sourceResults, agentArticles] = await Promise.all([
-    Promise.allSettled(
-      allSources.map(source =>
-        source.fetch(range).then(result => ({ source, result }))
-      )
-    ),
-    useAgent ? agentCollect(llm, range) : Promise.resolve([] as Article[]),
-  ])
+  const sourceResults = await Promise.allSettled(
+    sources.map(source => source.fetch(range).then(result => ({ source, result })))
+  )
 
   const seen = new Set<string>()
   const articles: Article[] = []
   const failures: FetchFailure[] = []
 
-  // Process static/query source results
   for (const settled of sourceResults) {
     if (settled.status === "rejected") {
       logger.warn("collect", "Source threw unexpectedly", String(settled.reason))
@@ -86,16 +78,6 @@ export async function collect(range: DateRange, llm: LLMClient): Promise<Collect
 
     logger.info("collect", source.name, `${kept} articles`)
   }
-
-  // Merge agent articles (already date-filtered)
-  let agentKept = 0
-  for (const article of agentArticles) {
-    if (seen.has(article.url)) continue
-    seen.add(article.url)
-    articles.push(article)
-    agentKept++
-  }
-  if (agentKept > 0) logger.info("collect", "Agent (HN + GitHub)", `${agentKept} articles`)
 
   logger.stat("Total collected", articles.length)
   logger.stat("Source failures", failures.length)

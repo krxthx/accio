@@ -64,7 +64,7 @@ export async function run(opts: RunOptions): Promise<string> {
   stats.afterDedup = deduplicated.length
 
   // ── Phase 4: Rank — single batched LLM call ───────────────────────────────
-  const ranked = await rank(deduplicated, llm, opts.verbose)
+  const ranked = await rank(deduplicated, llm)
 
   // ── Phase 5: Summarize — batched LLM calls ────────────────────────────────
   const summarized = await summarize(ranked, llm)

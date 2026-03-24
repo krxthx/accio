@@ -15,11 +15,13 @@ export class RSSSource implements Source {
   readonly key: string
   readonly name: string
   private feedUrl: string
+  private fetchLimit: number | undefined
 
   constructor(cfg: RSSSourceConfig) {
     this.key = cfg.key
     this.name = cfg.name
     this.feedUrl = cfg.url
+    this.fetchLimit = cfg.fetchLimit
   }
 
   async fetch(range: DateRange): Promise<FetchResult> {
@@ -60,6 +62,10 @@ export class RSSSource implements Source {
         "alsoСoveredBy": [],
         fetchError: null,
       })
+    }
+
+    if (this.fetchLimit !== undefined) {
+      articles.splice(this.fetchLimit)
     }
 
     return { articles }

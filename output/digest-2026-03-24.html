@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accio · AI Digest - 2026-03-17 → 2026-03-24</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #09090e;
+      --surface:     #101015;
+      --surface-2:   #16161e;
+      --border:      #1e1e2a;
+      --border-soft: #13131a;
+      --text:        #e0e0ec;
+      --text-dim:    #70708a;
+      --text-faint:  #38384e;
+      --accent:      #7c6dfa;
+      --s5:          #7c6dfa;
+      --s4:          #34c984;
+      --s3:          #5ba8f5;
+      --s2:          #e8a828;
+      --s1:          #e06060;
+      --radius:      7px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Layout ───────────────────────────────────────────── */
+    .layout {
+      display: grid;
+      grid-template-columns: 188px 1fr;
+      grid-template-rows: auto 1fr;
+      max-width: 1080px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    /* ── Topbar ───────────────────────────────────────────── */
+    .topbar {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      padding: 0 2rem;
+      height: 48px;
+      border-bottom: 1px solid var(--border-soft);
+      background: rgba(9,9,14,0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-logo {
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .topbar-logo span {
+      color: var(--text);
+    }
+    .topbar-sep { width: 1px; height: 14px; background: var(--border); }
+    .topbar-label { color: var(--text-faint); font-size: 0.72rem; }
+    .topbar-date {
+      margin-left: auto;
+      color: var(--text-faint);
+      font-size: 0.7rem;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Sidebar ──────────────────────────────────────────── */
+    .sidebar {
+      grid-column: 1;
+      padding: 2.25rem 0.75rem 2.25rem 1.75rem;
+      border-right: 1px solid var(--border-soft);
+      position: sticky;
+      top: 48px;
+      height: calc(100vh - 48px);
+      overflow-y: auto;
+    }
+
+    .sidebar-label {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 0.65rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.45rem;
+      padding: 0.35rem 0.45rem;
+      border-radius: 5px;
+      text-decoration: none;
+      color: var(--text-faint);
+      font-size: 0.74rem;
+      font-weight: 400;
+      transition: background 0.1s, color 0.1s;
+      margin-bottom: 0.04rem;
+      line-height: 1.4;
+    }
+    .nav-item:hover { background: var(--surface-2); color: var(--text-dim); }
+    .nav-icon { font-size: 0.75rem; flex-shrink: 0; opacity: 0.55; }
+    .nav-label { flex: 1; }
+    .nav-count {
+      font-size: 0.62rem;
+      color: var(--text-faint);
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+
+    /* ── Main ─────────────────────────────────────────────── */
+    .main {
+      grid-column: 2;
+      padding: 3.25rem 3rem 5rem;
+      max-width: 720px;
+    }
+
+    /* ── Page heading ─────────────────────────────────────── */
+    .page-heading {
+      margin-bottom: 3rem;
+    }
+    .page-heading h1 {
+      font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+      font-size: 2.1rem;
+      font-weight: 700;
+      font-style: normal;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+    .page-heading .subtitle {
+      color: var(--text-faint);
+      font-size: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Section ──────────────────────────────────────────── */
+    .section {
+      margin-bottom: 2.75rem;
+      scroll-margin-top: 64px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.9rem;
+      padding-bottom: 0.55rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .section-icon { font-size: 0.8rem; opacity: 0.45; }
+    .section-title {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .section-count {
+      margin-left: auto;
+      font-size: 0.62rem;
+      color: var(--text-faint);
+      font-variant-numeric: tabular-nums;
+      opacity: 0.6;
+    }
+
+    /* ── Article card ─────────────────────────────────────── */
+    .article {
+      position: relative;
+      padding: 0.85rem 1rem 0.8rem 1.1rem;
+      margin-bottom: 0.4rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-soft);
+      background: var(--surface);
+      overflow: hidden;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .article::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      border-radius: var(--radius) 0 0 var(--radius);
+      opacity: 0.7;
+    }
+    .article.s5::before { background: var(--s5); }
+    .article.s4::before { background: var(--s4); }
+    .article.s3::before { background: var(--s3); }
+    .article.s2::before { background: var(--s2); }
+    .article.s1::before { background: var(--s1); }
+
+    .article:hover { border-color: var(--border); background: var(--surface-2); }
+    .article.s5:hover { border-color: rgba(124,109,250,0.22); }
+    .article.s4:hover { border-color: rgba(52,201,132,0.18); }
+    .article.s3:hover { border-color: rgba(91,168,245,0.18); }
+
+    .article-title {
+      font-size: 0.875rem;
+      font-weight: 500;
+      line-height: 1.45;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.01em;
+    }
+    .article-title a {
+      color: var(--text);
+      text-decoration: none;
+    }
+    .article-title a:hover { color: var(--accent); }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-bottom: 0.45rem;
+    }
+    .source-label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--text-faint);
+      letter-spacing: 0.02em;
+    }
+    .source-label.src-arxiv     { color: #9070cc; }
+    .source-label.src-hugging   { color: #b07a1a; }
+    .source-label.src-google    { color: #3a74d4; }
+    .source-label.src-anthropic { color: #a85040; }
+    .source-label.src-openai    { color: #0c8060; }
+    .source-label.src-github    { color: #555c66; }
+    .source-label.src-hn        { color: #aa4800; }
+    .source-label.src-reddit    { color: #aa3000; }
+
+    .meta-sep { color: var(--text-faint); font-size: 0.55rem; opacity: 0.5; }
+    .meta-date { font-size: 0.65rem; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+
+    .article-summary {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      line-height: 1.62;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ── Failures (collapsed) ─────────────────────────────── */
+    .failures {
+      margin-top: 2rem;
+      font-size: 0.72rem;
+      color: var(--text-faint);
+    }
+    .failures summary {
+      cursor: pointer;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      user-select: none;
+    }
+    .failures summary:hover { color: var(--text-dim); }
+    .failures-list {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding-left: 0.5rem;
+    }
+    .failure-row { display: flex; gap: 0.6rem; }
+    .failure-source { color: var(--s1); font-weight: 500; flex-shrink: 0; }
+    .failure-error { color: var(--text-faint); }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    .footer {
+      margin-top: 4rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--border-soft);
+      font-size: 0.68rem;
+      color: var(--text-faint);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ── Sidebar legend ───────────────────────────────────── */
+    .legend { display: flex; flex-direction: column; gap: 0.18rem; }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.2rem 0.45rem;
+      font-size: 0.7rem;
+      color: var(--text-faint);
+    }
+    .legend-pip {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      opacity: 0.75;
+    }
+    .legend-pip.s5 { background: var(--s5); }
+    .legend-pip.s4 { background: var(--s4); }
+    .legend-pip.s3 { background: var(--s3); }
+    .legend-pip.s2 { background: var(--s2); }
+    .legend-pip.s1 { background: var(--s1); }
+    .legend-text { line-height: 1; }
+
+    /* ── Scrollbar ────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 720px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main { padding: 1.75rem 1.25rem 3rem; }
+      .topbar { padding: 0 1.25rem; }
+      .page-heading h1 { font-size: 2rem; }
+    }
+
+    @media print {
+      .sidebar, .topbar { display: none; }
+      body { background: white; color: black; font-size: 12px; }
+      .article { border: 1px solid #ddd; background: white; break-inside: avoid; }
+      .page-heading h1 { color: black; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-logo"><span>✦ Accio</span></div>
+    <div class="topbar-sep"></div>
+    <div class="topbar-label">AI Digest</div>
+    <div class="topbar-date">2026-03-17 → 2026-03-24</div>
+  </div>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="sidebar-label">Sections</div>
+      
+      <a class="nav-item" href="#product-news">
+        <span class="nav-icon">🚀</span>
+        <span class="nav-label">Product Releases &amp; Announcements</span>
+        <span class="nav-count">6</span>
+      </a>
+      
+      <a class="nav-item" href="#frameworks-community">
+        <span class="nav-icon">🔧</span>
+        <span class="nav-label">Frameworks &amp; Community</span>
+        <span class="nav-count">20</span>
+      </a>
+      
+      <a class="nav-item" href="#business-industry">
+        <span class="nav-icon">💼</span>
+        <span class="nav-label">Business &amp; Industry</span>
+        <span class="nav-count">4</span>
+      </a>
+      
+      <a class="nav-item" href="#research">
+        <span class="nav-icon">🧠</span>
+        <span class="nav-label">Research &amp; Papers</span>
+        <span class="nav-count">5</span>
+      </a>
+      
+
+      <div class="sidebar-label" style="margin-top: 1.75rem;">Relevance</div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-pip s5"></span><span class="legend-text">Must-read</span></div>
+        <div class="legend-item"><span class="legend-pip s4"></span><span class="legend-text">High signal</span></div>
+        <div class="legend-item"><span class="legend-pip s3"></span><span class="legend-text">Notable</span></div>
+        <div class="legend-item"><span class="legend-pip s2"></span><span class="legend-text">Context</span></div>
+        <div class="legend-item"><span class="legend-pip s1"></span><span class="legend-text">Low signal</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <div class="page-heading">
+        <h1>Accio AI News Digest</h1>
+        <div class="subtitle">2026-03-17 → 2026-03-24 &nbsp;·&nbsp; 35 stories</div>
+      </div>
+
+      
+      <section class="section" id="product-news">
+        <div class="section-header">
+          <span class="section-icon">🚀</span>
+          <span class="section-title">Product Releases &amp; Announcements</span>
+          <span class="section-count">6</span>
+        </div>
+
+        
+        
+        <div class="article s5">
+
+          <div class="article-title">
+            <a href="https://techcrunch.com/podcast/nvidia-has-an-openclaw-strategy-do-you/" target="_blank" rel="noopener">
+              Nvidia has an OpenClaw strategy. Do you?
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label">TechCrunch AI</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-20</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Nvidia CEO Jensen Huang presented at GTC conference, projecting $1 trillion in AI chip sales through 2027 and urging every company to adopt an &quot;OpenClaw strategy.&quot; The keynote featured Huang in his signature leather jacket and closed with an Olaf robot demonstration.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s4">
+
+          <div class="article-title">
+            <a href="https://techfixated.com/you-can-now-enable-claude-to-use-your-computer-to-complete-tasks/" target="_blank" rel="noopener">
+              You can now enable Claude to use your computer to complete tasks. It opens your apps, navigates your browser, fills in spreadsheets—anything you&#39;d do sitting at your desk.
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-reddit">Reddit r/artificial</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-23</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Anthropic released a major research preview enabling Claude to directly control macOS devices, allowing the AI to open applications, navigate browsers, and fill in spreadsheets autonomously. The feature is available in Claude Code and Claude Cowork for Pro and Max subscribers, representing a fundamental shift from Claude as a conversational assistant to a fully autonomous digital worker. This positions Anthropic competitively in the AI agent race, where the ability to execute real-world desktop tasks distinguishes Claude from traditional chatbot paradigms.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s4">
+
+          <div class="article-title">
+            <a href="https://news.ycombinator.com/item?id=47421489" target="_blank" rel="noopener">
+              TrustAgentAI – Cryptographic receipts for MCP tool calls (non-repudiation layer)
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-hn">Hacker News</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-18</span>
+            
+          </div>
+
+          
+          <div class="article-summary">TrustAgentAI introduces cryptographic receipts for MCP (Model Context Protocol) tool calls to establish non-repudiation for AI agent actions. The system addresses accountability gaps where AI agents executing sensitive operations like wire transfers lack tamper-evident proof of authorization or outcomes. This provides a verifiable audit trail for high-stakes agentic workflows.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s4">
+
+          <div class="article-title">
+            <a href="https://github.com/Imposter-zx/AI-DEV-OS" target="_blank" rel="noopener">
+              AI-DEV-OS: Autonomous AI Agent Orchestration Platform
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-18</span>
+            
+          </div>
+
+          
+          <div class="article-summary">AI-Dev-OS is a production-grade autonomous agent orchestration platform that integrates six cutting-edge AI/ML technologies into a unified workflow. The platform enables autonomous agents to execute complete software engineering tasks from design through deployment while maintaining human oversight at critical checkpoints. This addresses the need for scalable AI-assisted development with appropriate human control.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://openai.com/index/how-we-monitor-internal-coding-agents-misalignment" target="_blank" rel="noopener">
+              How we monitor internal coding agents for misalignment
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-openai">OpenAI</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-19</span>
+            
+          </div>
+
+          
+          <div class="article-summary">OpenAI has built and refined a monitoring system for internal coding agents to detect misalignment risks in real-time. The system addresses unique risk factors including agents&#39; access to select internal systems, ability to inspect safeguard documentation and code, and potential attempts to modify safeguards. This monitoring approach allows OpenAI to learn from real-world usage and identify emerging risks as agentic capabilities continue to advance.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://techcrunch.com/video/what-happened-at-nvidia-gtc-nemoclaw-robot-olaf-and-a-1-trillion-bet/" target="_blank" rel="noopener">
+              What happened at Nvidia GTC: NemoClaw, Robot Olaf, and a $1 trillion bet
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label">TechCrunch AI</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-20</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Nvidia CEO Jensen Huang delivered a 2.5-hour keynote at the company&#39;s GTC conference in his signature leather jacket, projecting $1 trillion in AI chip sales through 2027 and declaring that every company needs an &quot;OpenClaw strategy.&quot; The keynote closed with a rambling Olaf robot demo that required its microphone to be cut off.</div>
+          
+
+        </div>
+        
+      </section>
+      
+      <section class="section" id="frameworks-community">
+        <div class="section-header">
+          <span class="section-icon">🔧</span>
+          <span class="section-title">Frameworks &amp; Community</span>
+          <span class="section-count">20</span>
+        </div>
+
+        
+        
+        <div class="article s4">
+
+          <div class="article-title">
+            <a href="https://medium.com/ai-advances/flashattention-4-python-gpu-kernel-blackwell-2b18f51c8b32?sk=59bca93c369143e5f74fb0f86e57e6d0" target="_blank" rel="noopener">
+              FlashAttention-4: 1613 TFLOPs/s, 2.7x faster than Triton, written in Python. What it means for inference.
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-reddit">Reddit r/LocalLLaMA</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-24</span>
+            
+          </div>
+
+          
+          <div class="article-summary">FlashAttention-4 achieves 1613 TFLOPs/s throughput, delivering 2.7x speedup over Triton implementations while being written in Python. The new version targets inference workloads, potentially making efficient attention mechanisms more accessible for production deployment.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s4">
+
+          <div class="article-title">
+            <a href="https://github.com/vasilyevdm/ai-agent-handbook" target="_blank" rel="noopener">
+              AI Agent Handbook: Comprehensive Guide to AI Agent Engineering
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-20</span>
+            
+          </div>
+
+          
+          <div class="article-summary">The AI Agent Handbook is a GitHub repository providing an in-depth guide to AI agent engineering, covering how 30+ frameworks operate internally. It addresses key technical challenges including context rot and compaction, system prompt assembly, SOUL.md methodology, agent loops, memory systems, tool sprawl, Model Context Protocol (MCP), progressive disclosure, multi-agent orchestration, Plan/Act patterns, and episodic memory. The guide includes code examples throughout.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s4">
+
+          <div class="article-title">
+            <a href="https://blog.mozilla.ai/cq-stack-overflow-for-agents/" target="_blank" rel="noopener">
+              Cq – Stack Overflow for AI coding agents
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-hn">Hacker News</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-23</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Mozilla.ai introduces Cq, a project proposing a Stack Overflow-style standard for shared agent learning. The system would allow any AI agent to propose &#39;knowledge units&#39; (KUs) as a standardized schema based on gotchas encountered during operation. This aims to enable cross-agent, cross-model knowledge sharing about practical coding challenges and solutions.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://huggingface.co/blog/nvidia/domain-specific-embedding-finetune" target="_blank" rel="noopener">
+              Build a Domain-Specific Embedding Model in Under a Day
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-hugging">Hugging Face</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-20</span>
+            
+          </div>
+
+          
+          <div class="article-summary">This Hugging Face and NVIDIA tutorial provides a step-by-step guide for building domain-specific embedding models in under a day using contrastive learning and hard negative mining. The workflow covers generating training data from documents, mining hard negatives, multi-hop question unrolling, fine-tuning with key hyperparameters, and deploying with NVIDIA NIM in ONNX/TensorRT formats. The guide includes real-world results from Atlassian demonstrating improved RAG performance for domain-specific retrieval.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/pangon/ai-sdlc-scaffold/" target="_blank" rel="noopener">
+              AI SDLC Scaffold, repo template for AI-assisted software development
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-hn">Hacker News</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-21</span>
+            
+          </div>
+
+          
+          <div class="article-summary">A computer science researcher and full-stack engineer with 25 years of experience released an open-source repo template called AI SDLC Scaffold for AI-assisted software development. The template covers pre-coding phases including objectives, user stories, requirements, and architecture decisions, and is designed around Claude Code while remaining tool-agnostic.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/run-llama/liteparse" target="_blank" rel="noopener">
+              LiteParse, a fast open-source document parser for AI agents
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-hn">Hacker News</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-20</span>
+            
+          </div>
+
+          
+          <div class="article-summary">LiteParse is an Apache 2.0 licensed open-source document parser that provides high-quality spatial text parsing with bounding boxes. It runs entirely on CPU without requiring GPUs or VLMs, enabling processing of hundreds of document pages in seconds. The tool achieves higher accuracy than alternatives like PyPDF, PyMuPDF, and MarkItDown, making it suitable for AI agents requiring structured document extraction.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/AltimateAI/altimate-code" target="_blank" rel="noopener">
+              Altimate Code – Open-Source Agentic Data Engineering Harness
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-hn">Hacker News</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-19</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Altimate AI is open-sourcing Altimate Code, an agentic data engineering harness. The founders previously built dbt Power User and Datamates VSCode extensions with over 750,000 combined installs, targeting Fortune 500 data estates. The tool addresses limitations of general-purpose coding agents in handling complex data engineering workflows, providing specialized automation for data transformation and pipeline tasks.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/spencermarx/obsidian-ai" target="_blank" rel="noopener">
+              Agentic Copilot – Bring Claude Code, OpenCode, Gemini CLI into Obsidian
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-hn">Hacker News</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-19</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Obsidian-ai is an open-source Obsidian plugin that connects to locally installed CLI agents (Claude Code, OpenCode, Gemini CLI) without requiring API keys or built-in LLM integration. The plugin spawns agents as child processes, pipes vault context into prompts, and streams responses into a chat panel. It uses a generic adapter architecture where adding support for a new agent requires only a single configuration file.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/ShunsukeHayashi/agent-skill-bus" target="_blank" rel="noopener">
+              agent-skill-bus – Runtime for Agent Skills with health monitoring and self-improvement
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-17</span>
+            
+          </div>
+
+          
+          <div class="article-summary">agent-skill-bus is a zero-dependency runtime for AI agent skills that provides health monitoring, self-improvement capabilities, and dependency management for any agent framework. It addresses the gap in operational infrastructure for deploying and maintaining agent skills in production environments. The project has garnered 143 GitHub stars.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/Aquifer-sea/pattern8" target="_blank" rel="noopener">
+              pattern8 – AI Agent Governance Framework
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-20</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Pattern8 (P8) is a zero-trust governance framework for AI coding agents (Claude, Cursor, Devin) that enforces constraints at the OS and code level rather than relying on prompts. It uses MCP SecurityGuard to intercept dangerous commands like `rm -rf`, MCP Reviewer to enforce output templates via template.yaml, pre-commit hooks to prevent rule tampering, and an Inversion Pattern to force agents to ask clarifying questions instead of hallucinating. The framework separates &quot;Law&quot; (editable rules) from &quot;Police&quot; (enforcement mechanisms) and can be installed via `pip install pattern8` followed by `p8 init`.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/slowmist/slowmist-agent-security" target="_blank" rel="noopener">
+              SlowMist Agent Security: Security Review Framework for AI Agents
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-23</span>
+            
+          </div>
+
+          
+          <div class="article-summary">SlowMist Agent Security is a comprehensive security review framework for AI agents operating in adversarial environments, based on the principle that every external input is untrusted until verified. The framework provides structured reviews for OpenClaw agents covering skill/MCP installation (malicious pattern detection), GitHub repository auditing, URL/document analysis (prompt injection and social engineering), on-chain address review (AML risk assessment), and product/service evaluation. Installation involves cloning to `~/.openclaw/workspace/skills/` or using ClawHub.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/lipingtababa/harness-engineering-playbook" target="_blank" rel="noopener">
+              Harness Engineering Playbook: Framework for Shipping Software with AI Agents
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-18</span>
+            
+          </div>
+
+          
+          <div class="article-summary">This GitHub repository contains a Harness Engineering Playbook that provides a framework for shipping software with AI agents. The specific contents and features of the playbook are not detailed in the available content.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/codependentai/resonant" target="_blank" rel="noopener">
+              Resonant: Relational AI companion framework with identity persistence and MCP integration
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-18</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Resonant is an open-source relational AI companion framework that provides identity persistence, memory, and MCP integration. It enables building relationship-aware AI agents that remember interactions, grow over time, and maintain continuity. The framework is built on the Claude Agent SDK and has received 19 stars.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/praesidia-ai/neurogent" target="_blank" rel="noopener">
+              Neurogent: Open-source framework for building A2A-compliant AI agents
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-17</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Neurogent is an open-source framework for building A2A-compliant AI agents, combining a multi-agent terminal shell with an open agent framework. It allows users to spin up AI specialist teams (Engineer, Security, Reviewer), chain agents together, and define agents in YAML configuration files. The framework supports models from Anthropic, OpenAI, and Mistral, with full streaming capabilities and production deployment via a single command.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/Eamon2009/Transformer-language-model" target="_blank" rel="noopener">
+              Educational GPT-style Language Model in PyTorch
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-17</span>
+            
+          </div>
+
+          
+          <div class="article-summary">This is an educational implementation of a GPT-style language model built from scratch using PyTorch, designed to help understand how transformer-based AI models work. The project uses no pre-trained weights and no fine-tuning, making it suitable for learning purposes. According to the description, it can be trained on a $300 laptop.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/Young-Loser/RobotDoc-RAG-open" target="_blank" rel="noopener">
+              RobotDoc-RAG-open: Multimodal RAG for Robotics Technical Documents
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-23</span>
+            
+          </div>
+
+          
+          <div class="article-summary">RobotDoc-RAG-open is a multimodal retrieval-augmented generation pipeline designed specifically for robotics technical documents such as arm manuals, gripper manuals, and camera datasheets. Unlike traditional OCR-based approaches, it treats page images as first-class retrieval and reasoning units, supporting both BM25 text retrieval and vision-based page retrieval with multimodal reranking. The system also enables retrieval-augmented visual answer generation using vision-language models (VLMs). The prototype includes demo scripts for running the full pipeline on custom PDFs.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/varienos/agentic-workflow" target="_blank" rel="noopener">
+              Agentic Workflow: AI-driven development workflow template system for Claude Code
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-22</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Agentic Workflow is a template system that establishes AI-driven development workflows for software projects, integrated with Claude Code. The system analyzes projects using Bootstrap and automatically generates over 40 project-specific files. It includes tags for agentic-workflow, ai-development, automation, and backlog management, enabling automated project setup and development acceleration.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/BinaryHB0916/iSparto" target="_blank" rel="noopener">
+              iSparto: Run a full AI dev team using Claude Code Agent Team mode
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-17</span>
+            
+          </div>
+
+          
+          <div class="article-summary">iSparto is a GitHub project that orchestrates a multi-role AI development team using Claude Code Agent Team mode. It assigns Claude Opus 4.6 to Lead, Developer, and Doc Engineer roles, while using Codex 5.3 (via MCP on a $20 ChatGPT subscription) for code review. Unlike single-agent tools like Cursor or Windsurf, iSparto implements division of labor where the Lead breaks down tasks, Developers write code in parallel, Codex cross-reviews, and Doc Engineer maintains documentation—transforming a single agent into a complete development team.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/AIPMAndy/goskill" target="_blank" rel="noopener">
+              GoSkill: Goal-driven execution helper for long-running tasks with explicit success criteria
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-20</span>
+            
+          </div>
+
+          
+          <div class="article-summary">GoSkill is a Python library that wraps tasks with goal-driven execution logic, enabling long-running operations to continue until explicit success criteria are met or timeout occurs. It supports defining goals, criteria (e.g., &quot;compile&quot;: &quot;0 errors&quot;, &quot;test&quot;: &quot;100% pass&quot;), max_hours, and max_attempts parameters. The library provides two return modes: run() for raw results and run_with_result() for structured output including success status, attempts count, and criteria reports. Unlike simple function calls that return immediately, GoSkill persistently attempts execution and validates against defined acceptance criteria.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://github.com/cwyhkyochen-a11y/devtaskflow" target="_blank" rel="noopener">
+              DevTaskFlow: AI-driven development pipeline from natural language to deployed software
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-github">GitHub</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-19</span>
+            
+          </div>
+
+          
+          <div class="article-summary">DevTaskFlow is an AI-driven pipeline that converts natural language requirements into deployed software, automating the full workflow from requirements analysis through code generation, 9-dimension review, automatic fixes, deployment, and GitHub release. The v0.7.0 update adds React best practices (Vercel-compliant parallel requests, dynamic imports, virtualized lists), automated Web UI quality auditing across 10 criteria (accessibility, focus states, forms, animations, dark mode), and expands the review system from 7 to 9 dimensions including React performance. The system supports Claude Opus 4.6, GPT 5.4, and Mimo V2 Pro for code generation, with safeguards including state-machine progression, dry-run previews, path security limits, and deployment data sanitization.</div>
+          
+
+        </div>
+        
+      </section>
+      
+      <section class="section" id="business-industry">
+        <div class="section-header">
+          <span class="section-icon">💼</span>
+          <span class="section-title">Business &amp; Industry</span>
+          <span class="section-count">4</span>
+        </div>
+
+        
+        
+        <div class="article s4">
+
+          <div class="article-title">
+            <a href="https://techcrunch.com/2026/03/23/startup-gimlet-labs-is-solving-the-ai-inference-bottleneck-in-a-surprisingly-elegant-way/" target="_blank" rel="noopener">
+              Startup Gimlet Labs is solving the AI inference bottleneck in a surprisingly elegant way
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label">TechCrunch AI</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-23</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Gimlet Labs, founded by Stanford adjunct professor Zain Asgar, raised an $80 million Series A led by Menlo Ventures to build what it claims is the first &quot;multi-silicon inference cloud&quot;—software that distributes AI workloads across heterogeneous hardware including CPUs, GPUs, and high-memory systems. The platform addresses the fact that different AI operations require different hardware: inference is compute-bound, decoding is memory-bound, and tool calls are network-bound. Asgar claims current hardware utilization sits at only 15-30%, leaving hundreds of billions in idle resources, while McKinsey estimates data center spending could reach $7 trillion by 2030.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://techcrunch.com/2026/03/23/littlebird-raises-11m-to-capture-context-from-your-computer-so-you-can-query-your-data/" target="_blank" rel="noopener">
+              Littlebird raises $11M for its AI-assisted &#39;recall&#39; tool that reads your computer screen
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label">TechCrunch AI</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-23</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Littlebird raised $11M to build an AI-assisted recall tool that continuously &#39;reads&#39; computer screens and stores context in text format rather than screenshots. The app captures context from applications, automatically ignores password managers and sensitive fields in web forms, and allows users to connect Gmail, Google Calendar, Apple Calendar, and Reminders. Users can query their captured data and customize which apps to ignore.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://techcrunch.com/2026/03/22/cursor-admits-its-new-coding-model-was-built-on-top-of-moonshot-ais-kimi/" target="_blank" rel="noopener">
+              Cursor admits its new coding model was built on top of Moonshot AI&#39;s Kimi
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label">TechCrunch AI</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-22</span>
+            
+          </div>
+
+          
+          <div class="article-summary">Cursor&#39;s new Composer 2 coding model was built on Moonshot AI&#39;s open-source Kimi 2.5 model, which the company acknowledged after an X user exposed code identifying Kimi as the base. VP Lee Robinson stated only ~1/4 of compute came from the Kimi base, with the rest from Cursor&#39;s training, claiming benchmark performance differs significantly from Kimi&#39;s. The company insists its use is consistent with license terms, and Moonshot AI confirmed Cursor used Kimi through an authorized commercial partnership with Fireworks AI.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://techcrunch.com/2026/03/22/an-exclusive-tour-of-amazons-trainium-lab-the-chip-thats-won-over-anthropic-openai-even-apple/" target="_blank" rel="noopener">
+              An exclusive tour of Amazon&#39;s Trainium lab, the chip that&#39;s won over Anthropic, OpenAI, even Apple
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label">TechCrunch AI</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-22</span>
+            
+          </div>
+
+          
+          <div class="article-summary">TechCrunch received an exclusive tour of Amazon&#39;s chip development lab creating the Trainium processor, which has attracted Anthropic, OpenAI, and Apple as customers and could challenge Nvidia&#39;s dominance in AI inference chips. The $50 billion AWS-OpenAI deal makes AWS the exclusive provider of OpenAI&#39;s new AI agent builder &#39;Frontier,&#39; though Microsoft reportedly believes this arrangement may violate its own agreement with OpenAI. AWS has been Anthropic&#39;s primary cloud platform since the AI startup&#39;s early days, a relationship that persisted even after Anthropic added Microsoft as a partner.</div>
+          
+
+        </div>
+        
+      </section>
+      
+      <section class="section" id="research">
+        <div class="section-header">
+          <span class="section-icon">🧠</span>
+          <span class="section-title">Research &amp; Papers</span>
+          <span class="section-count">5</span>
+        </div>
+
+        
+        
+        <div class="article s4">
+
+          <div class="article-title">
+            <a href="https://news.mit.edu/2026/better-method-identifying-overconfident-large-language-models-0319" target="_blank" rel="noopener">
+              A better method for identifying overconfident large language models
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label">MIT News AI</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-19</span>
+            
+          </div>
+
+          
+          <div class="article-summary">MIT researchers developed a new uncertainty quantification method that compares a target LLM&#39;s responses to similar models to detect overconfident but incorrect outputs. Combined with self-consistency measures, this total uncertainty metric was evaluated on 10 tasks including question-answering and math reasoning, outperforming traditional approaches that only measure self-confidence.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2603.20295" target="_blank" rel="noopener">
+              MARLIN: Multi-Agent Reinforcement Learning for Incremental DAG Discovery
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-arxiv">arxiv</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-19</span>
+            
+          </div>
+
+          
+          <div class="article-summary">MARLIN (Multi-Agent Reinforcement Learning for Incremental DAG Discovery) is a novel approach for uncovering causal structures from observational data in the form of directed acyclic graphs. The method tackles the efficiency limitations of current reinforcement learning approaches, making it viable for real-time and online application scenarios where rapid causal inference is essential.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2603.20296" target="_blank" rel="noopener">
+              Collaborative Adaptive Curriculum for Progressive Knowledge Distillation
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label src-arxiv">arxiv</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-19</span>
+            
+          </div>
+
+          
+          <div class="article-summary">This paper proposes a Collaborative Adaptive Curriculum for Progressive Knowledge Distillation (CAC-PKD) to address the fundamental mismatch between high-dimensional teacher knowledge complexity and heterogeneous client learning capacities in distributed multimedia learning. The method uses progressive curriculum learning to adaptively transfer knowledge from teachers to clients with varying computational capabilities, demonstrating cutting-edge performance for resource-constrained scenarios.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://news.mit.edu/2026/creating-humble-ai-0324" target="_blank" rel="noopener">
+              How to create humble AI
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label">MIT News AI</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-24</span>
+            
+          </div>
+
+          
+          <div class="article-summary">MIT researchers have developed a framework for creating &quot;humble&quot; AI systems that acknowledge uncertainty rather than making overconfident recommendations. The approach, published in BMJ Health and Care Informatics, positions AI as a coach or co-pilot for physicians rather than an oracle, encouraging doctors to gather additional information when diagnoses are uncertain. This could help prevent AI from exerting excessive influence over clinical decisions.</div>
+          
+
+        </div>
+        
+        
+        <div class="article s3">
+
+          <div class="article-title">
+            <a href="https://news.mit.edu/2026/generative-ai-improves-wireless-vision-system-sees-through-obstructions-0319" target="_blank" rel="noopener">
+              Generative AI improves a wireless vision system that sees through obstructions
+            </a>
+          </div>
+
+          <div class="article-meta">
+            
+            
+              <span class="source-label">MIT News AI</span>
+            
+            
+            <span class="meta-sep">·</span>
+            <span class="meta-date">2026-03-19</span>
+            
+          </div>
+
+          
+          <div class="article-summary">MIT researchers are leveraging generative AI to enhance wireless vision systems that detect and reconstruct hidden objects through obstacles using radio signals. The new method produces more accurate shape reconstructions by filling in missing object details with a specially trained generative model, and can reconstruct entire rooms including furniture from a single stationary radar unit. This privacy-preserving approach could enable warehouse robots to verify packed items and smart home robots to understand their environments without relying on cameras.</div>
+          
+
+        </div>
+        
+      </section>
+      
+
+      
+
+      <div class="footer">
+        <span>Accio AI</span>
+        <span>2026-03-24T08:36:20</span>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>
