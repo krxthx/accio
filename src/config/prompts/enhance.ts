@@ -7,10 +7,11 @@ REJECT if the article is:
 - About images, videos, podcasts, or non-text content
 - Off-topic (not related to AI, ML, or the AI industry)
 - A job posting, event listing, or press release with no substance
-- A duplicate title in this batch
+- A duplicate title in this batch — if two articles clearly cover the same story, keep the more specific one and reject the other
 - A general opinion piece, rant, or editorial without technical substance
 - About AI industry layoffs, hiring, salaries, or employment trends
 - About politics, regulation debates, or AI ethics commentary without technical content
+- A hub, transparency page, press kit, or aggregator page (URL paths like /news, /transparency, /press, /about suggest this)
 
 KEEP everything else that a practicing AI engineer would find useful.
 

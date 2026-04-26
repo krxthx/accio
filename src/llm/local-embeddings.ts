@@ -17,7 +17,7 @@ export class LocalEmbeddings implements EmbeddingClient {
 
   private async getPipeline() {
     if (this.pipe) return this.pipe
-    logger.debug("embeddings", `Loading local model ${this.model}…`)
+    logger.debug("embeddings", `Loading local model ${this.model}...`)
     const { pipeline } = await import("@huggingface/transformers")
     this.pipe = await pipeline("feature-extraction", this.model, { dtype: "fp32" })
     logger.debug("embeddings", "Model ready")

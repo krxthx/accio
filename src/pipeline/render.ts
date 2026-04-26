@@ -10,11 +10,15 @@ import { logger } from "../utils/log.js"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
+function formatFilenameTimestamp(date: Date): string {
+  return date.toISOString().replace(/:/g, "-").replace(/\.\d{3}Z$/, "Z")
+}
+
 export async function render(
   digest: DigestResult,
   outputPath?: string
 ): Promise<string> {
-  logger.step("render", "Generating HTML digest…")
+  logger.step("render", "Generating HTML digest...")
 
   const templatesDir = join(__dirname, "..", "templates")
   const env = nunjucks.configure(templatesDir, { autoescape: true })
@@ -26,7 +30,9 @@ export async function render(
   const outDir = process.env.OUTPUT_DIR ?? OUTPUT_DIR
   await mkdir(outDir, { recursive: true })
 
-  const filename = outputPath ?? join(outDir, `digest-${formatDate(digest.generatedAt)}.html`)
+  const filename =
+    outputPath ??
+    join(outDir, `digest-${formatFilenameTimestamp(digest.generatedAt)}.html`)
 
   const html = env.render("digest.njk", {
     digest,

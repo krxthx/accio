@@ -57,7 +57,7 @@ async function main() {
 
   // ── Test 2: live LLM call — response parses as valid JSON ─────────────────
   console.log("\n=== Test 2: live LLM call ===")
-  console.log(`Sending prompt to ${llm.name}…`)
+  console.log(`Sending prompt to ${llm.name}...`)
   const raw = await llm.generate(PROMPT, { systemPrompt: SYSTEM })
 
   console.log("\nRaw response (after stripThinking in LLM client):")

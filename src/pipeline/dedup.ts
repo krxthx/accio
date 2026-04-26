@@ -38,7 +38,7 @@ class UnionFind {
 export async function dedup(articles: Article[], embeddings: EmbeddingClient): Promise<Article[]> {
   if (articles.length <= 1) return articles
 
-  logger.step("dedup", `Embedding ${articles.length} articles for deduplication…`)
+  logger.step("dedup", `Embedding ${articles.length} articles for deduplication...`)
 
   // Embed title + short snippet for each article
   const texts = articles.map(a =>

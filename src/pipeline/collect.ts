@@ -36,7 +36,7 @@ export async function collect(range: DateRange, llm: LLMClient): Promise<Collect
   const useAgent = isToolCallingClient(llm)
 
   if (useAgent) {
-    logger.step("collect", "Agent collecting from all sources…")
+    logger.step("collect", "Agent collecting from all sources...")
     const agentArticles = await agentCollect(llm, range)
     logger.stat("Total collected", agentArticles.length)
     return { articles: agentArticles, failures: [] }
@@ -44,7 +44,7 @@ export async function collect(range: DateRange, llm: LLMClient): Promise<Collect
 
   // Fallback: fetch all sources directly when no tool-calling LLM
   const sources = buildFallbackSources()
-  logger.step("collect", `Fetching ${sources.length} sources in parallel (no agent)…`)
+  logger.step("collect", `Fetching ${sources.length} sources in parallel (no agent)...`)
 
   const sourceResults = await Promise.allSettled(
     sources.map(source => source.fetch(range).then(result => ({ source, result })))

@@ -30,7 +30,7 @@ async function categorizeBatch(batch: Article[], llm: LLMClient): Promise<Catego
 }
 
 export async function categorize(articles: Article[], llm: LLMClient): Promise<Article[]> {
-  logger.step("categorize", `Categorizing ${articles.length} articles…`)
+  logger.step("categorize", `Categorizing ${articles.length} articles...`)
 
   const batches = chunk(articles, CATEGORIZE_MAX_ARTICLES)
   const sectionMap = new Map<string, "A" | "B" | "C" | "D" | "E">()

@@ -93,7 +93,7 @@ async function processBatch(
 
 export async function enhance(articles: Article[], llm: LLMClient, range: DateRange): Promise<Article[]> {
   const agentic = isToolCallingClient(llm)
-  logger.step("enhance", `Quality filtering ${articles.length} articles (batch=${ENHANCE_BATCH_SIZE}, agentic=${agentic})…`)
+  logger.step("enhance", `Quality filtering ${articles.length} articles (batch=${ENHANCE_BATCH_SIZE}, agentic=${agentic})...`)
 
   const batches = chunk(articles, ENHANCE_BATCH_SIZE)
   let kept = 0

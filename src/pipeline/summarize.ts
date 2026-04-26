@@ -61,7 +61,7 @@ async function summarizeBatch(batch: Article[], llm: LLMClient): Promise<Summary
 }
 
 export async function summarize(articles: Article[], llm: LLMClient): Promise<Article[]> {
-  logger.step("summarize", `Summarizing ${articles.length} articles (batch=${SUMMARIZE_BATCH_SIZE})…`)
+  logger.step("summarize", `Summarizing ${articles.length} articles (batch=${SUMMARIZE_BATCH_SIZE})...`)
 
   const batches = chunk(articles, SUMMARIZE_BATCH_SIZE)
   const summaryMap = new Map<string, string>()

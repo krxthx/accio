@@ -53,24 +53,11 @@ export type SourceConfig =
 
 // ── Tier 1: RSS feeds (verified timestamps) ───────────────────────────────────
 export const RSS_SOURCES: RSSSourceConfig[] = [
+  // ── Lab & product blogs ───────────────────────────────────────────────────
   {
-    key: "arxiv_ai",
-    name: "ArXiv CS.AI",
-    url: "https://rss.arxiv.org/rss/cs.AI",
-    tier: 1,
-    fetchLimit: 5,
-  },
-  {
-    key: "arxiv_lg",
-    name: "ArXiv CS.LG",
-    url: "https://rss.arxiv.org/rss/cs.LG",
-    tier: 1,
-    fetchLimit: 5,
-  },
-  {
-    key: "hf_blog",
-    name: "Hugging Face Blog",
-    url: "https://huggingface.co/blog/feed.xml",
+    key: "openai_news",
+    name: "OpenAI News",
+    url: "https://openai.com/news/rss.xml",
     tier: 1,
   },
   {
@@ -86,18 +73,26 @@ export const RSS_SOURCES: RSSSourceConfig[] = [
     tier: 1,
   },
   {
-    key: "mit_news",
-    name: "MIT News AI",
-    url: "https://news.mit.edu/rss/topic/artificial-intelligence2",
+    key: "hf_blog",
+    name: "Hugging Face Blog",
+    url: "https://huggingface.co/blog/feed.xml",
     tier: 1,
   },
   {
-    key: "openai_news",
-    name: "OpenAI News",
-    url: "https://openai.com/news/rss.xml",
+    key: "nvidia_blog",
+    name: "NVIDIA AI Blog",
+    url: "https://blogs.nvidia.com/feed/",
     tier: 1,
+    fetchLimit: 5,
   },
-  // ── Business / Industry ───────────────────────────────────────────────────
+  {
+    key: "msft_ai_blog",
+    name: "Microsoft AI Blog",
+    url: "https://blogs.microsoft.com/ai/feed/",
+    tier: 1,
+    fetchLimit: 5,
+  },
+  // ── Industry news ─────────────────────────────────────────────────────────
   {
     key: "venturebeat_ai",
     name: "VentureBeat AI",
@@ -110,20 +105,26 @@ export const RSS_SOURCES: RSSSourceConfig[] = [
     url: "https://techcrunch.com/category/artificial-intelligence/feed/",
     tier: 1,
   },
-  // ── Research (broader arXiv coverage) ────────────────────────────────────
   {
-    key: "arxiv_cl",
-    name: "ArXiv CS.CL",
-    url: "https://rss.arxiv.org/rss/cs.CL",
+    key: "theverge_ai",
+    name: "The Verge AI",
+    url: "https://www.theverge.com/ai-artificial-intelligence/rss/index.xml",
     tier: 1,
-    fetchLimit: 5,
   },
   {
-    key: "arxiv_cv",
-    name: "ArXiv CS.CV",
-    url: "https://rss.arxiv.org/rss/cs.CV",
+    key: "wired_ai",
+    name: "Wired AI",
+    url: "https://www.wired.com/feed/tag/ai/latest/rss",
     tier: 1,
-    fetchLimit: 5,
+    fetchLimit: 8,
+  },
+  // ── Research (top papers only — ranked strictly) ──────────────────────────
+  {
+    key: "arxiv_ai",
+    name: "ArXiv CS.AI",
+    url: "https://rss.arxiv.org/rss/cs.AI",
+    tier: 1,
+    fetchLimit: 3,
   },
 ]
 
@@ -133,9 +134,12 @@ export const HN_SOURCE: HNSourceConfig = {
   name: "Hacker News",
   tier: 2,
   queries: [
-    "LLM", "large language model", "Claude", "ChatGPT", "Gemini", "GPT",
-    "AI agent", "open source AI", "AI release", "transformer", "RAG",
-    "fine-tuning", "inference", "AI safety", "multimodal",
+    "Claude", "ChatGPT", "Gemini", "GPT", "Grok",
+    "AI agent", "LLM app", "AI product", "AI startup",
+    "MCP server", "model context protocol",
+    "open source AI", "AI tool", "AI release",
+    "vibe coding", "cursor", "AI coding",
+    "RAG", "fine-tuning", "AI API",
   ],
 }
 
@@ -151,12 +155,11 @@ export const LANGSEARCH_SOURCE: LangSearchSourceConfig = {
   name: "Web Search",
   tier: 2,
   queries: [
-    "new LLM model release",
-    "AI benchmark state of the art results",
-    "foundation model paper",
-    "open source AI tool release",
-    "AI safety research paper",
-    "machine learning breakthrough",
+    "new AI model release {dateRange}",
+    "AI product launch {dateRange}",
+    "AI startup funding announcement {dateRange}",
+    "new AI API features {dateRange}",
+    "AI industry news {dateRange}",
   ],
 }
 
@@ -166,12 +169,12 @@ export const GITHUB_SOURCE: GitHubSourceConfig = {
   tier: 2,
   token: process.env.GITHUB_TOKEN,
   queries: [
-    "language-model",
-    "LLM inference",
-    "AI agent framework",
-    "machine learning",
-    "diffusion model",
-    "fine-tuning LLM",
+    "AI agent",
+    "LLM app",
+    "MCP server",
+    "Claude tool",
+    "AI coding assistant",
+    "open source AI product",
   ],
 }
 

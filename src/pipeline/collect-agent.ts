@@ -225,7 +225,7 @@ async function searchGitHub(query: string, range: DateRange): Promise<Article[]>
  * Returns all articles the agent discovered via its tool calls.
  */
 export async function agentCollect(llm: ToolCallingClient, range: DateRange): Promise<Article[]> {
-  logger.step("collect-agent", "Agent deciding search queries…")
+  logger.step("collect-agent", "Agent deciding search queries...")
 
   const collected: Article[] = []
   const seen = new Set<string>()

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accio · AI Digest - {{ dateRange }}</title>
+  <title>Accio · AI Digest - 2026-03-14 → 2026-03-21</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
@@ -642,7 +642,7 @@
       }
 
       .hero {
-        padding: 30px;
+        padding: 30px 60px;
       }
 
       .hero-title {
@@ -714,7 +714,7 @@
             <div class="brand-title">Accio AI Digest</div>
           </div>
         </div>
-        <div class="masthead-date">{{ dateRange }}</div>
+        <div class="masthead-date">2026-03-14 → 2026-03-21</div>
       </div>
     </div>
 
@@ -724,13 +724,25 @@
           <div class="sidebar-label">Contents</div>
           <div class="sidebar-intro">An editorial-style scan of the week. Start with the sections that matter, then skim by relevance.</div>
           <nav class="nav">
-            {% for section in digest.sections %}
-            <a class="nav-item" href="#{{ section.cssClass }}">
-              <span class="nav-icon">{{ section.heading | sectionIcon }}</span>
-              <span class="nav-label">{{ section.heading | sectionLabel }}</span>
-              <span class="nav-count">{{ section.articles | length }}</span>
+            
+            <a class="nav-item" href="#product-news">
+              <span class="nav-icon">🚀</span>
+              <span class="nav-label">Product Releases &amp; Announcements</span>
+              <span class="nav-count">6</span>
             </a>
-            {% endfor %}
+            
+            <a class="nav-item" href="#frameworks-community">
+              <span class="nav-icon">🔧</span>
+              <span class="nav-label">Frameworks &amp; Community</span>
+              <span class="nav-count">3</span>
+            </a>
+            
+            <a class="nav-item" href="#research">
+              <span class="nav-icon">🧠</span>
+              <span class="nav-label">Research &amp; Papers</span>
+              <span class="nav-count">3</span>
+            </a>
+            
           </nav>
         </div>
 
@@ -749,114 +761,488 @@
       <main class="main">
         <section class="hero">
           <h1 class="hero-title">What moved in AI this week.</h1>
-          <p class="hero-dek">{{ digest.stats.inDigest }} selected stories across {{ digest.sections | length }} sections, curated into a cleaner weekly read on models, tools, research, and community movement.</p>
+          <p class="hero-dek">56 selected stories across 3 sections, curated into a cleaner weekly read on models, tools, research, and community movement.</p>
           <div class="hero-meta">
-            <span class="hero-stat">{{ digest.sections | length }} sections</span>
+            <span class="hero-stat">3 sections</span>
             <span class="hero-sep">•</span>
-            <span class="hero-stat">{{ digest.stats.inDigest }} stories</span>
+            <span class="hero-stat">56 stories</span>
             <span class="hero-sep">•</span>
-            <span class="hero-stat">{{ digest.stats.failures or 0 }} source issues</span>
+            <span class="hero-stat">2 source issues</span>
           </div>
         </section>
 
-        {% for section in digest.sections %}
-        <section class="section" id="{{ section.cssClass }}">
+        
+        <section class="section" id="product-news">
           <div class="section-header">
             <div class="section-heading">
-              <div class="section-icon">{{ section.heading | sectionIcon }}</div>
+              <div class="section-icon">🚀</div>
               <div>
-                <div class="section-kicker">Section {{ loop.index }}</div>
-                <h2 class="section-title">{{ section.heading | sectionLabel }}</h2>
+                <div class="section-kicker">Section 1</div>
+                <h2 class="section-title">Product Releases &amp; Announcements</h2>
               </div>
             </div>
-            <div class="section-count">{{ section.articles | length }} stories</div>
+            <div class="section-count">6 stories</div>
           </div>
 
           <div class="article-list">
-            {% for article in section.articles %}
-            {% set score = article.importanceScore or 3 %}
-            <article class="article s{{ score }}">
+            
+            
+            <article class="article s5">
               <div class="article-header">
                 <div class="article-main">
                   <div class="article-meta">
-                    {% set srcKey = article.sourceKey %}
-                    {% if "arxiv" in srcKey %}
-                      <span class="source-label src-arxiv">arXiv</span>
-                    {% elif srcKey == "hf_blog" %}
-                      <span class="source-label src-hugging">Hugging Face</span>
-                    {% elif "google" in srcKey or "deepmind" in srcKey %}
-                      <span class="source-label src-google">{{ article.sourceName }}</span>
-                    {% elif "anthropic" in srcKey %}
-                      <span class="source-label src-anthropic">Anthropic</span>
-                    {% elif srcKey == "openai_news" %}
+                    
+                    
                       <span class="source-label src-openai">OpenAI</span>
-                    {% elif srcKey == "github" %}
-                      <span class="source-label src-github">GitHub</span>
-                    {% elif srcKey == "hackernews" %}
-                      <span class="source-label src-hn">Hacker News</span>
-                    {% elif "reddit" in srcKey %}
-                      <span class="source-label src-reddit">{{ article.sourceName }}</span>
-                    {% else %}
-                      <span class="source-label">{{ article.sourceName }}</span>
-                    {% endif %}
-                    {% if article.timestamp and article.timestampVerified %}
-                    <span class="meta-date">{{ article.timestamp | formatDate }}</span>
-                    {% endif %}
+                    
+                    
+                    <span class="meta-date">2026-03-17</span>
+                    
                   </div>
 
                   <h3 class="article-title">
-                    <a href="{{ article.url }}" target="_blank" rel="noopener">
-                      {{ article.cleanedTitle or article.title }}
+                    <a href="https://openai.com/index/introducing-gpt-5-4-mini-and-nano" target="_blank" rel="noopener">
+                      Introducing GPT-5.4 mini and nano
                     </a>
                   </h3>
 
-                  {% if article.summary %}
-                  <div class="article-summary">{{ article.summary }}</div>
-                  {% elif article.rawSnippet %}
-                  <div class="article-summary">{{ article.rawSnippet }}</div>
-                  {% endif %}
+                  
+                  <div class="article-summary">OpenAI released GPT-5.4 mini and nano, their most capable small models to date. GPT-5.4 mini offers over 2x speed over GPT-5 mini while significantly improving coding, reasoning, multimodal understanding, and tool use — approaching GPT-5.4 performance on SWE-Bench Pro.</div>
+                  
                 </div>
 
                 <div class="score-badge">
-                  {% if score == 5 %}
+                  
                     Must-read
-                  {% elif score == 4 %}
-                    High signal
-                  {% elif score == 3 %}
-                    Notable
-                  {% elif score == 2 %}
-                    Context
-                  {% else %}
-                    Low signal
-                  {% endif %}
+                  
                 </div>
               </div>
             </article>
-            {% endfor %}
+            
+            
+            <article class="article s4">
+              <div class="article-header">
+                <div class="article-main">
+                  <div class="article-meta">
+                    
+                    
+                      <span class="source-label src-hugging">Hugging Face</span>
+                    
+                    
+                    <span class="meta-date">2026-03-17</span>
+                    
+                  </div>
+
+                  <h3 class="article-title">
+                    <a href="https://huggingface.co/blog/Hcompany/holotron-12b" target="_blank" rel="noopener">
+                      Holotron-12B — High Throughput Computer Use Agent
+                    </a>
+                  </h3>
+
+                  
+                  <div class="article-summary">H Company released Holotron-12B, a multimodal computer-use model post-trained from NVIDIA&#39;s Nemotron-Nano-2 VL. Uses a hybrid SSM architecture optimized for high-throughput inference, specifically for agentic workflows that handle long contexts with multiple images.</div>
+                  
+                </div>
+
+                <div class="score-badge">
+                  
+                    High signal
+                  
+                </div>
+              </div>
+            </article>
+            
+            
+            <article class="article s5">
+              <div class="article-header">
+                <div class="article-main">
+                  <div class="article-meta">
+                    
+                    
+                      <span class="source-label src-anthropic">Anthropic</span>
+                    
+                    
+                    <span class="meta-date">2026-03-19</span>
+                    
+                  </div>
+
+                  <h3 class="article-title">
+                    <a href="https://anthropic.com/news/claude-3-7" target="_blank" rel="noopener">
+                      Claude 3.7 Sonnet — Extended Thinking
+                    </a>
+                  </h3>
+
+                  
+                  <div class="article-summary">Anthropic released Claude 3.7 Sonnet with extended thinking mode, enabling deeper reasoning for complex tasks. The model achieves new state-of-the-art on coding benchmarks and shows significantly improved performance on multi-step agentic tasks.</div>
+                  
+                </div>
+
+                <div class="score-badge">
+                  
+                    Must-read
+                  
+                </div>
+              </div>
+            </article>
+            
+            
+            <article class="article s4">
+              <div class="article-header">
+                <div class="article-main">
+                  <div class="article-meta">
+                    
+                    
+                      <span class="source-label src-github">GitHub</span>
+                    
+                    
+                    <span class="meta-date">2026-03-16</span>
+                    
+                  </div>
+
+                  <h3 class="article-title">
+                    <a href="https://github.com/Tencent/Covo-Audio" target="_blank" rel="noopener">
+                      Covo-Audio: 7B End-to-End Large Audio Language Model
+                    </a>
+                  </h3>
+
+                  
+                  <div class="article-summary">Tencent released Covo-Audio, a 7B end-to-end audio language model processing continuous audio and generating audio in a unified architecture. Introduces hierarchical tri-modal speech-text interleaving with a full-duplex variant for low-latency native voice interaction.</div>
+                  
+                </div>
+
+                <div class="score-badge">
+                  
+                    High signal
+                  
+                </div>
+              </div>
+            </article>
+            
+            
+            <article class="article s5">
+              <div class="article-header">
+                <div class="article-main">
+                  <div class="article-meta">
+                    
+                    
+                      <span class="source-label src-google">Google DeepMind</span>
+                    
+                    
+                    <span class="meta-date">2026-03-20</span>
+                    
+                  </div>
+
+                  <h3 class="article-title">
+                    <a href="https://deepmind.com/blog/gemini-2-5" target="_blank" rel="noopener">
+                      Gemini 2.5 Pro — Experimental Release
+                    </a>
+                  </h3>
+
+                  
+                  <div class="article-summary">Google released Gemini 2.5 Pro in experimental preview, claiming top scores on reasoning and coding benchmarks. The model introduces improved tool use and a 1M token context window with better utilization across the full range.</div>
+                  
+                </div>
+
+                <div class="score-badge">
+                  
+                    Must-read
+                  
+                </div>
+              </div>
+            </article>
+            
+            
+            <article class="article s3">
+              <div class="article-header">
+                <div class="article-main">
+                  <div class="article-meta">
+                    
+                    
+                      <span class="source-label">Mistral AI</span>
+                    
+                    
+                  </div>
+
+                  <h3 class="article-title">
+                    <a href="https://example.com/mistral-release" target="_blank" rel="noopener">
+                      Mistral Small 3.1 — Multimodal Open Model
+                    </a>
+                  </h3>
+
+                  
+                  <div class="article-summary">Mistral AI released Small 3.1, a 24B multimodal model available under Apache 2.0. Supports vision and text inputs with a 128K context window, targeting on-device and edge deployment scenarios.</div>
+                  
+                </div>
+
+                <div class="score-badge">
+                  
+                    Notable
+                  
+                </div>
+              </div>
+            </article>
+            
           </div>
         </section>
-        {% endfor %}
+        
+        <section class="section" id="frameworks-community">
+          <div class="section-header">
+            <div class="section-heading">
+              <div class="section-icon">🔧</div>
+              <div>
+                <div class="section-kicker">Section 2</div>
+                <h2 class="section-title">Frameworks &amp; Community</h2>
+              </div>
+            </div>
+            <div class="section-count">3 stories</div>
+          </div>
 
-        {% if digest.failures and digest.failures.length > 0 %}
+          <div class="article-list">
+            
+            
+            <article class="article s4">
+              <div class="article-header">
+                <div class="article-main">
+                  <div class="article-meta">
+                    
+                    
+                      <span class="source-label src-hn">Hacker News</span>
+                    
+                    
+                    <span class="meta-date">2026-03-16</span>
+                    
+                  </div>
+
+                  <h3 class="article-title">
+                    <a href="https://github.com/example/langgraph-studio" target="_blank" rel="noopener">
+                      LangGraph Studio 2.0 — Visual Agent Debugger
+                    </a>
+                  </h3>
+
+                  
+                  <div class="article-summary">LangGraph Studio 2.0 ships with a real-time visual debugger for agentic workflows, time-travel debugging, and breakpoint support. Integrates natively with LangSmith for tracing and evaluation, significantly reducing the iteration loop for complex multi-agent systems.</div>
+                  
+                </div>
+
+                <div class="score-badge">
+                  
+                    High signal
+                  
+                </div>
+              </div>
+            </article>
+            
+            
+            <article class="article s3">
+              <div class="article-header">
+                <div class="article-main">
+                  <div class="article-meta">
+                    
+                    
+                      <span class="source-label src-hugging">Hugging Face</span>
+                    
+                    
+                    <span class="meta-date">2026-03-15</span>
+                    
+                  </div>
+
+                  <h3 class="article-title">
+                    <a href="https://github.com/example/smolagents" target="_blank" rel="noopener">
+                      smolagents 1.1 — Simpler Tool Calling for Hugging Face Models
+                    </a>
+                  </h3>
+
+                  
+                  <div class="article-summary">Hugging Face released smolagents 1.1 with improved tool-calling reliability, a new CodeAgent that writes and executes Python directly, and a library of 40+ pre-built tools for common agentic tasks.</div>
+                  
+                </div>
+
+                <div class="score-badge">
+                  
+                    Notable
+                  
+                </div>
+              </div>
+            </article>
+            
+            
+            <article class="article s3">
+              <div class="article-header">
+                <div class="article-main">
+                  <div class="article-meta">
+                    
+                    
+                      <span class="source-label src-hn">Hacker News</span>
+                    
+                    
+                    <span class="meta-date">2026-03-14</span>
+                    
+                  </div>
+
+                  <h3 class="article-title">
+                    <a href="https://github.com/example/dspy-optimizer" target="_blank" rel="noopener">
+                      DSPy — New MIPRO Optimizer Cuts Prompt Engineering
+                    </a>
+                  </h3>
+
+                  
+                  <div class="article-summary">DSPy&#39;s new MIPRO optimizer automates instruction tuning and few-shot example selection, claiming 15-30% accuracy improvements on classification and reasoning tasks versus hand-written prompts.</div>
+                  
+                </div>
+
+                <div class="score-badge">
+                  
+                    Notable
+                  
+                </div>
+              </div>
+            </article>
+            
+          </div>
+        </section>
+        
+        <section class="section" id="research">
+          <div class="section-header">
+            <div class="section-heading">
+              <div class="section-icon">🧠</div>
+              <div>
+                <div class="section-kicker">Section 3</div>
+                <h2 class="section-title">Research &amp; Papers</h2>
+              </div>
+            </div>
+            <div class="section-count">3 stories</div>
+          </div>
+
+          <div class="article-list">
+            
+            
+            <article class="article s5">
+              <div class="article-header">
+                <div class="article-main">
+                  <div class="article-meta">
+                    
+                    
+                      <span class="source-label src-arxiv">arXiv</span>
+                    
+                    
+                    <span class="meta-date">2026-03-19</span>
+                    
+                  </div>
+
+                  <h3 class="article-title">
+                    <a href="https://arxiv.org/abs/2503.12345" target="_blank" rel="noopener">
+                      RLVR: Reinforcement Learning from Verifiable Rewards Scales to 70B
+                    </a>
+                  </h3>
+
+                  
+                  <div class="article-summary">Researchers demonstrate that RLVR — reinforcement learning from verifiable rewards — scales effectively to 70B models, achieving +12% on math and +8% on code benchmarks over SFT baselines without any human preference data.</div>
+                  
+                </div>
+
+                <div class="score-badge">
+                  
+                    Must-read
+                  
+                </div>
+              </div>
+            </article>
+            
+            
+            <article class="article s4">
+              <div class="article-header">
+                <div class="article-main">
+                  <div class="article-meta">
+                    
+                    
+                      <span class="source-label src-arxiv">arXiv</span>
+                    
+                    
+                    <span class="meta-date">2026-03-17</span>
+                    
+                  </div>
+
+                  <h3 class="article-title">
+                    <a href="https://arxiv.org/abs/2503.67890" target="_blank" rel="noopener">
+                      Chain-of-Draft: Thinking Faster with Fewer Tokens
+                    </a>
+                  </h3>
+
+                  
+                  <div class="article-summary">Chain-of-Draft proposes generating concise, information-dense reasoning drafts instead of verbose chain-of-thought, reducing token usage by 76% while matching or exceeding CoT accuracy on math, commonsense, and symbolic reasoning.</div>
+                  
+                </div>
+
+                <div class="score-badge">
+                  
+                    High signal
+                  
+                </div>
+              </div>
+            </article>
+            
+            
+            <article class="article s3">
+              <div class="article-header">
+                <div class="article-main">
+                  <div class="article-meta">
+                    
+                    
+                      <span class="source-label src-arxiv">arXiv</span>
+                    
+                    
+                    <span class="meta-date">2026-03-16</span>
+                    
+                  </div>
+
+                  <h3 class="article-title">
+                    <a href="https://arxiv.org/abs/2503.11111" target="_blank" rel="noopener">
+                      MegaScale-Infer: Serving Mixture-of-Experts at 1M QPS
+                    </a>
+                  </h3>
+
+                  
+                  <div class="article-summary">ByteDance introduces MegaScale-Infer, a system for serving large MoE models at scale. Key innovations include disaggregated expert parallelism and a cross-node expert caching strategy that reduces all-to-all communication by 40%.</div>
+                  
+                </div>
+
+                <div class="score-badge">
+                  
+                    Notable
+                  
+                </div>
+              </div>
+            </article>
+            
+          </div>
+        </section>
+        
+
+        
         <details class="failures">
           <summary>
             <span class="failures-label">Source health</span>
-            <span class="failures-note">{{ digest.failures | length }} issue{% if digest.failures.length != 1 %}s{% endif %}</span>
+            <span class="failures-note">2 issues</span>
           </summary>
           <div class="failures-list">
-            {% for f in digest.failures %}
+            
             <div class="failure-row">
-              <div class="failure-source">{{ f.sourceName }}</div>
-              <div class="failure-error">{{ f.error | truncate(140, true, '...') }}</div>
+              <div class="failure-source">Reddit r/MachineLearning</div>
+              <div class="failure-error">Connection timed out after 30s</div>
             </div>
-            {% endfor %}
+            
+            <div class="failure-row">
+              <div class="failure-source">MIT News</div>
+              <div class="failure-error">SSL certificate verification failed</div>
+            </div>
+            
           </div>
         </details>
-        {% endif %}
+        
 
         <div class="footer">
           <span>Accio AI Digest</span>
-          <span class="footer-note">Generated {{ generatedAt | truncate(19, true, "") }}</span>
+          <span class="footer-note">Generated 2026-04-26T13:23:10</span>
         </div>
       </main>
     </div>

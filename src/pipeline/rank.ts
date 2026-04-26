@@ -28,7 +28,7 @@ async function rankBatch(batch: Article[], llm: LLMClient): Promise<RankDecision
 }
 
 export async function rank(articles: Article[], llm: LLMClient): Promise<Article[]> {
-  logger.step("rank", `Scoring ${articles.length} articles…`)
+  logger.step("rank", `Scoring ${articles.length} articles...`)
 
   // Split into chunks if over cap (single call is faster; cap avoids context overflow)
   const batches = chunk(articles, RANK_MAX_ARTICLES)

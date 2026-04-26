@@ -3,7 +3,6 @@ import type { Article } from "../models/article.js"
 import type { DateRange } from "../utils/dates.js"
 import type { GitHubSourceConfig } from "../config/sources.js"
 import { makeArticleId } from "../models/article.js"
-import { inRange } from "../utils/dates.js"
 import { isValidArticleUrl, normalizeUrl } from "../utils/urls.js"
 import { truncate } from "../utils/parsing.js"
 import { HTTP_TIMEOUT_MS, GITHUB_MIN_STARS } from "../config/constants.js"
@@ -48,7 +47,10 @@ export class GitHubSource implements Source {
     const articles: Article[] = []
 
     for (const query of this.queries) {
-      const q = `${query} created:${fromStr}..${toStr}`
+      // Use pushed: to capture recently active repos, not just newly created ones.
+      // New repos rarely hit the star threshold in their first week, so created: was
+      // returning almost nothing.
+      const q = `${query} pushed:${fromStr}..${toStr} stars:>=${GITHUB_MIN_STARS}`
       const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(q)}&sort=stars&order=desc&per_page=10`
 
       try {
@@ -68,10 +70,9 @@ export class GitHubSource implements Source {
           if (!isValidArticleUrl(articleUrl) || seen.has(articleUrl)) continue
           seen.add(articleUrl)
 
-          if (repo.stargazers_count < GITHUB_MIN_STARS) continue
-
-          const timestamp = new Date(repo.created_at)
-          if (!inRange(timestamp, range)) continue
+          // Use pushed_at as the article timestamp since we're filtering by push date.
+          // Don't re-check inRange here — the API already filtered by pushed:.
+          const timestamp = new Date(repo.pushed_at)
 
           const topics = repo.topics?.length ? ` [${repo.topics.slice(0, 4).join(", ")}]` : ""
           const snippet = repo.description
