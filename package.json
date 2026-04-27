@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "bun run src/cli.ts",
     "start": "bun run src/cli.ts",
-    "build": "bun build src/cli.ts --outdir dist --target bun --minify"
+    "build": "bun build src/cli.ts --outdir dist --target bun --minify",
+    "test:llm": "bun run scripts/test-llm.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.28.0",
